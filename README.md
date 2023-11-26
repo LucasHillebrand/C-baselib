@@ -106,7 +106,7 @@ normally this is used in other modules like **string.h**
     str_ston | string **\|** numtype | usize | convert a string to a number
     str_ntos | palloc_pagetable* **\|** number **\|** numtype | byte* | convert a number to string
     stringf | palloc_pagetable* **\|** formatstring **\|** void*[] | byte* | supportet keys are %% and %s
-- ## Examle
+- ## Example
     > before we beginn we need an pagetable for the strings
 
         byte buff[K(256)];
