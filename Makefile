@@ -5,6 +5,7 @@ OutputFolder = baselib/
 Output = baselib.so
 Input = src/*
 
+TestOut = ./test.bin
 ReleaseFolder = releases/
 
 build:
