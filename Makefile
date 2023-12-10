@@ -5,7 +5,7 @@ OutputFolder = baselib/
 Output = baselib.so
 Input = src/*
 
-TestOut = ./testbin
+ReleaseFolder = releases/
 
 build:
 	mkdir -p ${OutputFolder}
@@ -19,3 +19,9 @@ test: build
 	${CC} ${CARGS} ./test.c ${OutputFolder}${Output} -o ${TestOut}
 	bash -c ${TestOut}
 	rm ${TestOut}
+
+release: build
+	mkdir -p ${ReleaseFolder}
+	bash -c "tar -cf ${ReleaseFolder}baselib-release-$$(date +%d\".\"%m\".20\"%y).tar ${OutputFolder}"
+	bash -c "gzip ${ReleaseFolder}baselib-release-$$(date +%d\".\"%m\".20\"%y).tar"
+	rm -r ${OutputFolder}
