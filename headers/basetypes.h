@@ -8,6 +8,8 @@
 #define G(s) M(1024)*s
 #define T(s) G(1024)*s
 
+#define NONE 0
+
 typedef unsigned long usize;
 typedef unsigned short ushort;
 typedef unsigned int uint;

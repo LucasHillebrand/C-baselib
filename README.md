@@ -24,6 +24,11 @@ baselibary
     ushort | unsigned short
     byte | unsigned char
 
+- ## added constants
+    type | value
+    ---|---
+    NONE | 0
+
 - ## added macros
 
     < these add simpler ways to calculate the space you want to use >
@@ -106,6 +111,9 @@ normally this is used in other modules like **string.h**
     str_ston | string **\|** numtype | usize | convert a string to a number
     str_ntos | palloc_pagetable* **\|** number **\|** numtype | byte* | convert a number to string
     stringf | palloc_pagetable* **\|** formatstring **\|** void*[] | byte* | supportet keys are %% and %s
+    str_cut | palloc_pagetable* **\|** string **\|** startpos **\|** length | byte*
+    str_startswith | string **\|** startpos **\|** searchstr | byte (bool => 0 false, 1 true)
+
 - ## Example
     > before we beginn we need an pagetable for the strings
 
@@ -137,3 +145,19 @@ normally this is used in other modules like **string.h**
     > get the length of an string
 
         usize len = str_len((byte*)"Hello"); // expected output 5
+    
+    ---
+    > cutting a string
+
+        byte* str = str_cut(&str_ptable, (byte*)"string", 1, 4); // expected output "trin"
+    
+    > cut just the beginning
+
+        byte* str = str_cut(&str_ptable, (byte*)"string", 1, NONE); // expected output "tring"
+
+    ---
+    > checking if a string startswith a specific string at a speciic position
+
+        byte bool = str_startswith((byte*)"String", 0, "String"); // expected output 1
+        byte bool = str_startswith((byte*)"String", 0, "string"); // expected output 0
+        byte bool = str_startswith((byte*)"String", 1, "tri"); // expected output 1

@@ -269,3 +269,37 @@ byte* stringf(palloc_pagetable* ptable, const char* format, void* args[]){ // su
     stringf_end:
     return str;
 }
+
+byte* str_cut(palloc_pagetable* ptable, byte* string, usize start, usize len){
+    byte* str = palloc_alloc(ptable);
+    if (str == 0)
+        goto cut_end;
+
+    usize inlen=str_len(string);
+    if (len == NONE)
+        len=inlen;
+    for (usize i = 0;i+start < inlen && i+start < len+start && i < ptable->pagesize-1;i++)
+        str[i]=string[i+start];
+
+    cut_end:
+    return str;
+}
+
+byte str_startswith(byte* org,usize start, char* search){
+    usize searchlen = str_len((byte*)search);
+    usize orglen = str_len(org);
+
+    byte found=0;
+
+    if (orglen-start < searchlen)
+        goto startswith_end;
+
+    for (usize i=0;i<searchlen && i+start < orglen;i++)
+        if(org[i+start] != search[i])
+            goto startswith_end;
+    
+    found=1;
+
+    startswith_end:
+    return found;
+}
