@@ -303,3 +303,29 @@ byte str_startswith(byte* org,usize start, char* search){
     startswith_end:
     return found;
 }
+
+sllist_base str_split(palloc_pagetable* str_ptable, palloc_pagetable* sll_ptable, byte* str, byte* keystr){
+    sllist_base splstr={NONE, sll_ptable, str_ptable};
+    struct sllist_node* currnode=NONE;
+
+    currnode=palloc_alloc(sll_ptable);
+    currnode->val=palloc_alloc(str_ptable);
+    splstr.head=currnode;
+
+    usize keylen = str_len(keystr);
+    usize strlen = str_len(str);
+    usize j=0;
+    for (usize i=0;i<strlen;i++,j++){
+        if (str_startswith(str, i, (char*)keystr) == 1) {
+            i+=(keylen-1);
+            currnode->next=palloc_alloc(sll_ptable);
+            currnode=currnode->next;
+            currnode->val=palloc_alloc(str_ptable);
+            j=-1;
+        }else{
+            if (j<str_ptable->pagesize-1) *((byte*)((currnode->val)+j))=str[i];
+        }
+    }
+
+    return splstr;
+}

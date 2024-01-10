@@ -1,10 +1,17 @@
 #include <stdio.h>
 #include "./headers/string.h"
+#include "headers/datatypes/sllist.h"
 #include "headers/palloc.h"
 
 int main(){
-    byte buff[K(128)];
-    palloc_pagetable ptable=palloc_create_table(buff, K(128), std_str_size);
+    byte strbuff[K(128)];
+    palloc_pagetable strptable=palloc_create_table(strbuff, K(128), std_str_size);
+    byte sllbuff[K(128)];
+    palloc_pagetable sllptable=palloc_create_table(sllbuff, K(128), std_sllist_nodesize);
 
-    printf("cut: >%s<\n",str_cut(&ptable,(byte*)"String", 1, 4));
+    byte* str=(byte*)"Hello World";
+
+    sllist_base spl = str_split(&strptable,&sllptable,str,(byte*)" ");
+
+    for(;spl.head!=0;) printf("%s\n",(char*)sllist_pop(&spl));
 }

@@ -4,6 +4,7 @@
 #include "./palloc.h"
 #include "./simplemath.h"
 #include "basetypes.h"
+#include "./datatypes/sllist.h"
 
 #define std_str_size 128
 
@@ -18,16 +19,6 @@ byte* stringf(palloc_pagetable* ptable, const char* format, void* args[]); // su
 byte* str_cut(palloc_pagetable* ptable, byte* string, usize start, usize len);
 byte str_startswith(byte* org, usize start, char* search);
 
-/*
-struct spl_str {
-    const byte* orgstr;
-    const char separator;
-    byte* curr;
-};
-
-void str_cut(byte* str, usize start, usize end);
-void str_next(struct spl_str* spl);
-struct spl_str str_genspl(palloc_pagetable* ptable, byte* str, char separator);
-*/
+sllist_base str_split(palloc_pagetable* str_ptable, palloc_pagetable* sll_ptable, byte* str, byte* keystr);
 
 #endif
