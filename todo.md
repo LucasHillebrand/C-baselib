@@ -3,8 +3,8 @@
 - ## Makefile
     - check (+ folder with test programms)
 
-- ## sllist
-    - pop function
+- ## update README.md
+    - complete sllist.h documentation
+    - str_split function
 
-- ## string
-    - split function
+- ## ptr security sllist.h !!!!!!
