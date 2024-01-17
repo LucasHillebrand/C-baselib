@@ -1,7 +1,6 @@
 # < TODO >
 
 - ## create github Release
-    - add readme.md to release tarball
 
 - ## Makefile
     - check (+ folder with test programms)

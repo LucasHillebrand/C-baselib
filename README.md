@@ -99,6 +99,66 @@ baselibary
 
 normally this is used in other modules like **string.h**
 
+# datatypes/sllist.h
+< a module for a single linked list >
+
+- ## Functiontable:
+    Function | Arguments | return | sidenote
+    ---|---|---|---
+    sllist_create | sllist pagetable **\|** itemptable | sllist_base
+    sllist_prepend | sllist_base* ptr **\|** ptr to value | void
+    sllist_remove | sllist_base* ptr **\|** index | void
+    sllist_pop | sllist_base* ptr | void* ptr to value
+    sllist_get | sllist_base* ptr **\|** index | void* ptr to value
+    sllist_len | sllist_base* ptr | size
+    sllist_destroy | sllist_base* ptr | void
+
+- ## Example
+    > before we beginn we need pagetables for the linked list
+
+        byte buff[K(128)];
+        palloc_pagetable val_ptable = palloc_create_table(buff, K(128), std_str_size);
+        byte buff[K(128)];
+        palloc_pagetable sll_ptable = palloc_create_table(buff, K(128), std_sllist_nodesize);
+    ---
+    > also it's recomendet to create the list
+    
+        sllist_base sllist = sllist_create(&sll_ptable, &val_ptable);
+    ---
+    > to add a value to the list
+
+        void* testval = palloc_alloc(&val_ptable);
+        sllist_prepend(&sllist, testval);
+    ---
+    > to get the length of the list
+
+        usize len = sllist_len(&sllist);
+    ---
+    > to get values from the list
+    
+    - first method: get
+        > get the fifth item: 
+
+            void* val = sllist_get(&sllist, 5);
+    
+    - second method: pop
+        > this frees the sllist_node but leaves the value alone
+
+            void* val = sllist_pop(&sllist);
+    ---
+    > deletions
+
+    - first method remove
+
+        > remove a node and value in this example node 0
+
+            sllist_remove(&sllist, 0);
+    
+    - second method: destroy
+        
+        > delete all nodes and values saved in the list
+
+            sllist_destroy(&sllist);
 # string.h
 < a module to work with strings >
 
@@ -113,6 +173,7 @@ normally this is used in other modules like **string.h**
     stringf | palloc_pagetable* **\|** formatstring **\|** void*[] | byte* | supportet keys are %% and %s
     str_cut | palloc_pagetable* **\|** string **\|** startpos **\|** length | byte*
     str_startswith | string **\|** startpos **\|** searchstr | byte (bool => 0 false, 1 true)
+    str_split | palloc_pagetable* strptable **\|** palloc_ptable sllptable **\|**  byte* orgstring **\|** searchstr | sllist_base
 
 - ## Example
     > before we beginn we need an pagetable for the strings
@@ -161,3 +222,17 @@ normally this is used in other modules like **string.h**
         byte bool = str_startswith((byte*)"String", 0, "String"); // expected output 1
         byte bool = str_startswith((byte*)"String", 0, "string"); // expected output 0
         byte bool = str_startswith((byte*)"String", 1, "tri"); // expected output 1
+    ---
+    > split a string
+
+    > creating a sllist buffer and pagetable
+
+        byte* sllbuff[K(128)];
+        palloc_pagetable sll_ptable = palloc_create_table(sllbuff, K(128), std_sllist_nodesize);
+
+    > now split
+
+        byte* string = (byte*)"Hello World";
+        sllist_base splstr = str_split(&str_pagetable, &sll_pagetable, string, (byte*)" ");
+        // expected output ("Hello", "World")
+        

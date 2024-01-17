@@ -9,9 +9,10 @@ TestOut = ./test.bin
 ReleaseFolder = releases/
 
 build:
-	mkdir -p ${OutputFolder}
+	mkdir -p ${OutputFolder}headers
 	${CC} ${CARGS} ${LIBARGS} ${Input} -o ${OutputFolder}${Output}
-	bash -c "cp -r headers/* ${OutputFolder}"
+	bash -c "cp -r headers/* ${OutputFolder}headers"
+	bash -c "cp README.md ${OutputFolder}"
 
 clean:
 	bash -c "rm -r ${OutputFolder}"

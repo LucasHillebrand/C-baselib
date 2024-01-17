@@ -9,9 +9,9 @@ int main(){
     byte sllbuff[K(128)];
     palloc_pagetable sllptable=palloc_create_table(sllbuff, K(128), std_sllist_nodesize);
 
-    byte* str=(byte*)"Hello World";
+    byte* str=(byte*)"Hello World I AM GROOT";
 
     sllist_base spl = str_split(&strptable,&sllptable,str,(byte*)" ");
 
-    for(;spl.head!=0;) printf("%s\n",(char*)sllist_pop(&spl));
+    for(;spl.head!=0;sllist_remove(&spl, 0)) printf("<%s>\n",(char*)sllist_get(&spl, 0));
 }
