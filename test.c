@@ -13,5 +13,6 @@ int main(){
 
     sllist_base spl = str_split(&strptable,&sllptable,str,(byte*)" ");
 
+
     for(;spl.head!=0;sllist_remove(&spl, 0)) printf("<%s>\n",(char*)sllist_get(&spl, 0));
 }
